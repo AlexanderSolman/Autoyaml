@@ -1,11 +1,14 @@
 package autoyaml
 
 import (
+	"bufio"
 	"fmt"
+	"os"
 	"regexp"
 	"strings"
 
 	"github.com/AlexanderSolman/Autoyaml/templates"
+	"sigs.k8s.io/yaml"
 )
 
 func validFileName(filePath string) error {
@@ -19,42 +22,49 @@ func validFileName(filePath string) error {
     return nil
 }
 
-func createDeployment(flag *string, filePath string) error {
+func createFile(flag *string, filePath string, command string) error {
+    var (
+        data []byte
+        err error
+    )
+
+    switch command {
+    case "deployment":
+        data, err = yaml.Marshal(autoyaml.GenerateDeployment(flag))
+        if err != nil { return err }
+    case "serviceaccount":
+        data, err = yaml.Marshal(autoyaml.GenerateServiceAccount(flag))
+        if err != nil { return err }
+    case "role":
+        data, err = yaml.Marshal(autoyaml.GenerateRole(flag))
+        if err != nil { return err }
+    case "rolebinding":
+        data, err = yaml.Marshal(autoyaml.GenerateRoleBinding(flag))
+        if err != nil { return err }
+    case "clusterrole":
+        data, err = yaml.Marshal(autoyaml.GenerateClusterRole(flag))
+        if err != nil { return err }
+    case "clusterrolebinding":
+        data, err = yaml.Marshal(autoyaml.GenerateClusterRoleBinding(flag))
+        if err != nil { return err }
+    case "pod":
+        data, err = yaml.Marshal(autoyaml.GeneratePod(flag))
+        if err != nil { return err }
+    default:
+        return fmt.Errorf("Command does not match a valid Kubernetes resource")
+    }
     
-    // ~/project/src/deployment/nginx.yaml || nginx.yaml
+    f, err := os.OpenFile(filePath, os.O_WRONLY|os.O_CREATE, 0644)
+    if err != nil { return fmt.Errorf("Failed to open file: %v", err) }
+    defer f.Close()
+
+    writer := bufio.NewWriter(f)
+    err = os.WriteFile(filePath, data, 0644)
+    if err != nil { return fmt.Errorf("Failed to write to file: %v", err) }
     
+    err = writer.Flush()
+    if err != nil { return fmt.Errorf("Failed to flush writer: %v", err) }
 
-    deployment := autoyaml.GenerateDeployment(flag)    
-
-}
-
-func createSeriveAccount(flag *string, filePath string) error {
-    
-    serviceaccount := autoyaml.GenerateServiceAccount(flag)
-}
-
-func createRole(flag *string, filePath string) error {
-    
-    createrole := autoyaml.GenerateRole(flag)
-}
-
-func createRoleBinding(flag *string, filePath string) error {
-
-    rolebinding := autoyaml.GenerateRoleBinding(flag)
-}
-
-func createClusterRole(flag *string, filePath string) error {
-
-    clusterrole := autoyaml.GenerateClusterRole(flag)
-}
-
-func createClusterRoleBinding(flag *string, filePath string) error {
-
-    clusterrolebinding := autoyaml.GenerateClusterRoleBinding(flag)
-}
-
-func createPod(flag *string, filePath string) error {
-
-    pod := autoyaml.GeneratePod(flag)
+    return nil
 }
 
