@@ -1,12 +1,9 @@
 package autoyaml
 
 
-// Possibly move var flag *string globally here and check if it is set or not
-
-// Could take flag as argument i.e -b(or blank as -b is default), -a for which version to return
 func GenerateDeployment(flag *string) Deployment {
+    // flag is always defaulted as empty string 
     if *flag == "-a" {
-        // TODO filled version all variables
         return Deployment{
             APIVersion: "apps/v1",
             Kind: "Deployment",
