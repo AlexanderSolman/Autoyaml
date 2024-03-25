@@ -26,7 +26,7 @@ func GenerateDeployment(flag *string) Deployment {
                     },
                     Spec: PodSpec{
                         SchedulerName: "kube-scheduler",
-                        ServiceAccount: "default #Change or Remove",
+                        ServiceAccount: "default",
                         Containers: Containers{
                             Name: "test-app-container",
                             Image: "<Account-Name>/<Repository>:<x,y,z>",
@@ -36,7 +36,7 @@ func GenerateDeployment(flag *string) Deployment {
                                 MountPath: "/mnt/data/",
                             },
                         },
-                        NodeName: "node-01 #Change or Remove",
+                        NodeName: "node-01",
                         RestartPolicy: "OnFailure",
                         Volumes: Volume{
                             Name: "test-volume",
@@ -70,7 +70,7 @@ func GenerateDeployment(flag *string) Deployment {
                 },
                 Spec: PodSpec{
                     SchedulerName: "kube-scheduler",
-                    ServiceAccount: "default #Change or Remove",
+                    ServiceAccount: "default",
                     Containers: Containers{
                         Name: "test-app-container",
                         Image: "<Account-Name>/<Repository>:<x,y,z>",

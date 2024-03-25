@@ -15,5 +15,5 @@ cyaml:
 	@rm -f $(TEST_YAML)
 
 .PHONY: run
-run: build
+run:
 	@./$(BIN)

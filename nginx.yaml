@@ -1,0 +1,81 @@
+APIVersion: apps/v1
+Kind: Deployment
+Metadata:
+  ClusterName: ""
+  Labels:
+    App: test-app
+  Name: test-app
+  Namespace: default
+Spec:
+  Replicas: 1
+  Selector:
+    MatchLabels:
+      Key: ""
+      Value: 0
+  Template:
+    Metadata:
+      ClusterName: ""
+      Labels:
+        App: ""
+      Name: test-app
+      Namespace: default
+    Spec:
+      Containers:
+        Args: null
+        Command: null
+        Image: <Account-Name>/<Repository>:<x,y,z>
+        ImagePullPolicy: Always
+        LivenessProbe:
+          Exec:
+            Command: null
+          HTTPGet:
+            HTTPHeader:
+              Name: ""
+              Value: ""
+            Host: ""
+            Path: ""
+            Port: 0
+            Scheme: ""
+          InitialDelaySeconds: 0
+          TimeoutSeconds: 0
+        Name: test-app-container
+        Ports:
+          ContainerPort: 0
+          HostIP: ""
+          HostPort: 0
+          Name: ""
+          Protocol: ""
+        ReadinessProbe:
+          Exec:
+            Command: null
+          HTTPGet:
+            HTTPHeader:
+              Name: ""
+              Value: ""
+            Host: ""
+            Path: ""
+            Port: 0
+            Scheme: ""
+          InitialDelaySeconds: 0
+          TimeoutSeconds: 0
+        Resources:
+          Limits:
+            CPU: ""
+            Memory: ""
+          Requests:
+            CPU: ""
+            Memory: ""
+        VolumeMounts:
+          MountPath: /mnt/data/
+          Name: test-volume
+          ReadOnly: false
+          SubPath: ""
+      NodeName: ""
+      RestartPolicy: OnFailure
+      SchedulerName: kube-scheduler
+      ServiceAccount: default
+      Volumes:
+        Name: test-volume
+        PersistentVolumeClaim:
+          ClaimName: test-pvc
+          ReadOnly: false
