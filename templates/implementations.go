@@ -1,9 +1,12 @@
 package autoyaml
 
+import "fmt"
 
 func GenerateDeployment(flag *string) Deployment {
     // flag is always defaulted as empty string 
+    fmt.Println("From generate:", *flag) // DEBUG
     if *flag == "-a" {
+        fmt.Printf("If flag is -a this is awkward: %s", *flag)
         return Deployment{
             APIVersion: "apps/v1",
             Kind: "Deployment",
@@ -47,7 +50,7 @@ func GenerateDeployment(flag *string) Deployment {
             },
         }
     }
-
+    fmt.Println("Correct?")
     return Deployment{
         APIVersion: "apps/v1",
         Kind: "Deployment",

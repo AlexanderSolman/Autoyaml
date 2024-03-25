@@ -1,9 +1,11 @@
-package autoyaml
+package main
 
 import (
 	"fmt"
 	"os"
 	"strings"
+
+	autoyaml "github.com/AlexanderSolman/Autoyaml/src"
 )
 
 // >> autoyaml <kind(deployment)> <file/path/your.yaml(defaults to current directory ./your.yaml)>
@@ -29,6 +31,7 @@ func main() {
     command := strings.ToLower(os.Args[1])
     if amountOfArguments == 4 { 
         flag = os.Args[2]
+        fmt.Println("From main:", flag) // DEBUG
         if flag != "-a" {
             var i string
             fmt.Printf("Invalid flag: %s. Did you mean -a? [y,n]", flag)
@@ -46,13 +49,13 @@ func main() {
         filePath = os.Args[2]
     }
     
-    err = validFileName(filePath)
+    err = autoyaml.ValidFileName(filePath)
     if err != nil {
         fmt.Println(err)
         os.Exit(1)
     }
-
-    err = createFile(&flag, filePath, command)
+    fmt.Println("From main", flag) // DEBUG
+    err = autoyaml.CreateFile(&flag, filePath, command)
     if err != nil {
         fmt.Println(err)
         os.Exit(1)

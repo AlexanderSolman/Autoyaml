@@ -11,7 +11,7 @@ import (
 	"sigs.k8s.io/yaml"
 )
 
-func validFileName(filePath string) error {
+func ValidFileName(filePath string) error {
     pattern := "^[a-zA-Z0-9_-]"
     regex := regexp.MustCompile(pattern)
     substrings := strings.Split(filePath, "/")
@@ -22,12 +22,12 @@ func validFileName(filePath string) error {
     return nil
 }
 
-func createFile(flag *string, filePath string, command string) error {
+func CreateFile(flag *string, filePath string, command string) error {
     var (
         data []byte
         err error
     )
-
+    fmt.Println("From createfile:", *flag) // DEBUG
     switch command {
     case "deployment":
         data, err = yaml.Marshal(autoyaml.GenerateDeployment(flag))
